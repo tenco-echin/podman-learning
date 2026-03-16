@@ -9,8 +9,9 @@ Use Podman commands that map 1:1 to common Docker workflows, and build confidenc
 - Podman: 5.8.0
 - Podman machine: `podman-machine-default`
 
-## Prerequistites
+## Prerequisites
 - Podman machine is running:
+- 
 ```bash
 podman machine start
 ```
@@ -31,7 +32,7 @@ podman pull nginx:1.27
 ```
 2) List images:
 ```bash
-podman pull images
+podman images
 ```
 3) Remove the image:
 ```bash
@@ -44,6 +45,10 @@ Checkpoint
 ---
 
 ### Task 2: Containers (run / ps / logs / stop / rm)
+**Rule (for this lab)**
+Always set a name and a label when running a container:
+- Use `--name lab02-<service>` (example: `lab02-nginx`)
+- Add `--label lab=lab02` so you can filter/cleanup later
 1) Run nginx in the background and expose port 8080 on the host.
   Hint: -d, -p hostPort:containerPort
 2) Confirm it is running.
@@ -105,7 +110,7 @@ podman inspect <name-or-id>
 Questions
 - What is the container IP address?
 - What is the mount configuration?
-- What is  the entrypoint/cmd?
+- What is the entrypoint/cmd?
 
 Checkpoint
 - You can point to the exact fields in the JSON output.
@@ -113,11 +118,11 @@ Checkpoint
 ---
 
 ### Task 7 (optional): Network (user-defined)
-1) Create a suer-defined network:
+1) Create a user-defined network:
 ```bash
 podman network create lab02-net
 ```
-2) Run two containers on the same network and confitm name-based DNS works.
+2) Run two containers on the same network and confirm name-based DNS works.
   Hint: one container runs a simple HTTP server, the other curls it
 
 Checkpoint
@@ -126,8 +131,8 @@ Checkpoint
 ---
 
 ## Reflection (write in your own words)
-1) Which comands felt identical to Docker?
-2) Waht was different (event slightly)?
+1) Which commands felt identical to Docker?
+2) What was different (even slightly)?
 3) What do you think Podman's design philosophy is after this lab?
 
 ---
@@ -137,5 +142,8 @@ Checkpoint
 podman ps -a
 podman images
 ```
+ (Optional) Cleanup everything created for this lab by label:
+ - `podman ps -aq --filter label=lab=lab02`
+ - `podman rm -f $(podman ps -aq --filter label=lab=lab02)`
 
 Only remove things you created for this lab.
